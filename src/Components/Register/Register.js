@@ -4,6 +4,7 @@ const Register = () => {
     return (
         <div>
             <h4>This is register page</h4>
+            
         </div>
     );
 };
