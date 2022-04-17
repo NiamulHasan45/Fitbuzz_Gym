@@ -1,8 +1,8 @@
 import React from 'react';
 import { Carousel } from 'react-bootstrap';
-import s1 from '../../images/slide-1-01.png';
-import s2 from '../../images/slide-2-01.png';
-import s3 from '../../images/slide-3-01.png';
+import s1 from '../images/slide-1-01.png';
+import s2 from '../images/slide-2-01.png';
+import s3 from '../images/slide-3-01.png';
 import Services from '../Services/Services';
 
 const Home = () => {
