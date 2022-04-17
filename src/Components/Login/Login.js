@@ -14,6 +14,8 @@ const Login = () => {
 
     const handleSubmit = event => {
         event.preventDefault();
+        const email = emailRef.current.value;
+        const password = passwordRef.current.value;
     }
 
 
