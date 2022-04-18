@@ -6,7 +6,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 * Very easy and user friendly user-interface will give you a smooth experience.
 * All products and services are available ase you can compare with markettrend.
 * Picture Collection
-       1. Freepik
+    1. Freepik
 
 * Technology used
     1. XML, React.js
