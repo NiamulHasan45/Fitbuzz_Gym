@@ -6,15 +6,13 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 * Very easy and user friendly user-interface will give you a smooth experience.
 * All products and services are available ase you can compare with markettrend.
 * Technology used
-    *XML, React.js
-    *React router, bootstrap
-    *Javascript ES6
-    *Firebase*Picture Collection
-       *Freepik* Bullet list
-              * Nested bullet
-                  * Sub-nested bullet etc
-          * Bullet list item 2
-
+    1. XML, React.js
+    2. React router, bootstrap
+    3. Javascript ES6
+    4. Firebase
+ 
+*Picture Collection
+       *Freepik
     
     
 
