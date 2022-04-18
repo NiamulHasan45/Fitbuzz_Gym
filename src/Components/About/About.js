@@ -1,17 +1,25 @@
 import React from 'react';
 import './About.css';
+import niamul from '../images/niamul.png'
 
 const About = () => {
     return (
-        <div className='bg-dark text-white p-5'>
-            <div>
+        <div className='bg-dark text-white mt-5 p-5 d-flex align-items-center justify-content-center'>
+            <div className='w-50'>
                 <h1>About Me</h1>
                 <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. At, cupiditate. Distinctio officia facere nobis, minus animi deleniti itaque? Dolores ad deleniti delectus architecto, dolorem accusamus eius? Sit quidem magnam eaque architecto dignissimos? Numquam molestiae exercitationem cumque sint voluptas fugiat provident, deserunt quam aut consequuntur, explicabo pariatur suscipit animi dignissimos repellendus error culpa dolorum. Iusto adipisci explicabo exercitationem, porro expedita voluptate aspernatur cumque cum cupiditate, eum asperiores est tempora inventore aperiam veritatis ipsum quaerat illo. Quod sequi cumque at pariatur quaerat est corrupti numquam inventore dolorem mollitia nobis quam dolores excepturi, consequuntur dignissimos ut dolore. Repudiandae voluptatibus iure labore iusto dignissimos.
-                </p>
+                    Hello, I am Niamul Hasan.A couple of reasons motivated me to build my career in web development.
+                    </p>
+                    <p> Firstly, My interest which is grown during my Bachelor degree. The undergraduate curriculum in Information and Communication Engineering (ICE) introduces me to a wide variety of technological field. So i explored a lot of thing and i came up to a conclusion that it is the best suited career for me. 
+                        </p>
+                        <p>Secondly, Web development is very fun to do. It is the perfect place to expose all my skills, creativity with the most efficient way through my work.</p>
+                        <p>I want to be a top level web developer within two years.</p>
+
+              
+                 
             </div>
-            <div>
-                <img src="" alt="" />
+            <div className='w-50 d-flex align-items-center justify-content-center'>
+                <img src={niamul} alt="" />
             </div>
         </div>
     );
