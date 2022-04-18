@@ -7,7 +7,8 @@ import github from '../images/github-01.png';
 import { useSendPasswordResetEmail, useSignInWithEmailAndPassword, useSignInWithGithub, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
 import Loading from '../SharedComponents/Loading/Loading';
-import {toast} from 'react-toastify';
+import toast, { Toaster } from 'react-hot-toast';
+
 
 const Login = () => {
 
@@ -57,10 +58,10 @@ const Login = () => {
         const email = emailRef.current.value;
         if (email) {
             await sendPasswordResetEmail(email);
-            toast('Sent email');
+            toast.success('Sent email');
         }
         else{
-            toast('please enter your email address');
+           toast.error('please enter your email address');
         }
     }
 
@@ -88,6 +89,7 @@ const Login = () => {
 
     return (
         <div className='login-container bg-dark'>
+            <Toaster />
             <div className='container w-50 p-5 mx-auto text-white'>
                 <h2 className='text-primary text-center p-5'>Please Login</h2>
                 <Form onSubmit={handleSubmit}>

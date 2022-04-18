@@ -12,6 +12,7 @@ const Register = () => {
     const nameRef = useRef('');
     const navigate = useNavigate();
     const location = useLocation();
+    let errorElement;
 
 
 
@@ -38,6 +39,18 @@ const Register = () => {
         await sendEmailVerification();
         await updateProfile({ displayName: name });
     }
+
+    if(error){
+        errorElement = <p className='text-danger'>{error.message}</p>
+    }
+    if(emailError){
+        errorElement = <p className='text-danger'>{emailError.message}</p>
+    }
+    if(updateError){
+        errorElement = <p className='text-danger'>{updateError.message}</p>
+    }
+    
+
     if(user){
         navigate('/home');
     }
@@ -57,7 +70,7 @@ const Register = () => {
                         <Form.Control ref={passwordRef} type="password" placeholder="Password" required />
                     </Form.Group>
                     {
-                        (error||emailError||updateError)&&<p className='text-danger'>{error.message}</p>
+                        errorElement
                     }
                     <Button variant="primary w-50 mx-auto d-block mb-2" type="submit">
                         Register
