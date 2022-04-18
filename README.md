@@ -1,6 +1,6 @@
 # Fitbuzz Gym
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is made for fitness lover to acces easily [Fitbuzz-Gym](https://github.com/facebook/create-react-app).
 
 * You can securely login here and purchase all my services with lowest rate.
 * Very easy and user friendly user-interface will give you a smooth experience.
