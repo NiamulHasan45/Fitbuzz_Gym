@@ -4,6 +4,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './Login.css';
 import google from '../images/google-01.png';
 import github from '../images/github-01.png';
+import { useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import auth from '../../firebase.init';
 
 const Login = () => {
     const emailRef = useRef('');
@@ -11,12 +13,29 @@ const Login = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
+    const [
+        signInWithEmailAndPassword,
+        user,
+        loading,
+        error,
+      ] = useSignInWithEmailAndPassword(auth);
+
+      const [signInWithGoogle, googleUser, googleLoading, googleError] = useSignInWithGoogle(auth);
+
 
     const handleSubmit = event => {
         event.preventDefault();
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
+        signInWithEmailAndPassword(email, password);
     }
+
+    
+
+
+   if(user||googleUser){
+       navigate('/home');
+   }
 
 
     return (
@@ -30,6 +49,9 @@ const Login = () => {
                     <Form.Group className="mb-4" controlId="formBasicPassword">
                         <Form.Control ref={passwordRef} type="password" placeholder="Password" required />
                     </Form.Group>
+                    {
+                        error&&<p className='text-danger'>{error.message}</p>
+                    }
                     <Button variant="primary w-50 mx-auto d-block mb-2" type="submit">
                         Login
                     </Button>
@@ -38,7 +60,7 @@ const Login = () => {
                 <p>New to fitbuzz? <Link to="/register" className='text-primary pe-auto text-decoration-none'>Please Register</Link> </p>
                 <p>Forget Password? <button className='btn btn-link text-primary pe-auto text-decoration-none' >Reset Password</button> </p>
                 <div>
-                    <Button className='w-50 d-block mx-auto mb-3 d-flex align-items-center justify-content-center'>
+                    <Button onClick={() => signInWithGoogle()} className='w-50 d-block mx-auto mb-3 d-flex align-items-center justify-content-center'>
                       
                             <img src={google} alt="" />
                             <p className='ms-2 mt-2'>Login with google</p>
