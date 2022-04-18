@@ -4,9 +4,10 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './Login.css';
 import google from '../images/google-01.png';
 import github from '../images/github-01.png';
-import { useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { useSendPasswordResetEmail, useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
 import Loading from '../SharedComponents/Loading/Loading';
+import toast from 'react-hot-toast';
 
 const Login = () => {
     const emailRef = useRef('');
@@ -21,9 +22,20 @@ const Login = () => {
         user,
         loading,
         error,
-      ] = useSignInWithEmailAndPassword(auth);
+    ] = useSignInWithEmailAndPassword(auth);
 
-      const [signInWithGoogle, googleUser, googleLoading, googleError] = useSignInWithGoogle(auth);
+    const
+        [signInWithGoogle, 
+            googleUser, 
+            googleLoading, 
+            googleError
+        ] = useSignInWithGoogle(auth);
+
+        const 
+        [sendPasswordResetEmail, 
+            sending, 
+            resetError
+        ] = useSendPasswordResetEmail(auth);
 
 
     const handleSubmit = event => {
@@ -33,14 +45,25 @@ const Login = () => {
         signInWithEmailAndPassword(email, password);
     }
 
-    if (loading || googleLoading) {
+    const resetPassword = async () => {
+        const email = emailRef.current.value;
+        if (email) {
+            await sendPasswordResetEmail(email);
+            toast('Sent email');
+        }
+        else{
+            toast('please enter your email address');
+        }
+    }
+
+    if (loading || googleLoading||sending) {
         return <Loading></Loading>;
     }
 
 
-   if(user||googleUser){
+    if (user || googleUser) {
         navigate(from, { replace: true });
-   }
+    }
 
 
     return (
@@ -55,7 +78,7 @@ const Login = () => {
                         <Form.Control ref={passwordRef} type="password" placeholder="Password" required />
                     </Form.Group>
                     {
-                        (error||googleError)&&<p className='text-danger'>{error.message}</p>
+                        (error || googleError||resetError) && <p className='text-danger'>{error.message}</p>
                     }
                     <Button variant="primary w-50 mx-auto d-block mb-2" type="submit">
                         Login
@@ -63,19 +86,19 @@ const Login = () => {
                 </Form>
 
                 <p>New to fitbuzz? <Link to="/register" className='text-primary pe-auto text-decoration-none'>Please Register</Link> </p>
-                <p>Forget Password? <button className='btn btn-link text-primary pe-auto text-decoration-none' >Reset Password</button> </p>
+                <p>Forget Password? <button onClick={resetPassword} className='btn btn-link text-primary pe-auto text-decoration-none' >Reset Password</button> </p>
                 <div>
                     <Button onClick={() => signInWithGoogle()} className='w-50 d-block mx-auto mb-3 d-flex align-items-center justify-content-center'>
-                      
-                            <img src={google} alt="" />
-                            <p className='ms-2 mt-2'>Login with google</p>
-                       
+
+                        <img src={google} alt="" />
+                        <p className='ms-2 mt-2'>Login with google</p>
+
                     </Button>
                     <Button className='w-50 d-block mx-auto d-flex align-items-center justify-content-center'>
-                      
-                            <img src={github} alt="" />
-                            <p className='ms-2 mt-2'>Login with github</p>
-                       
+
+                        <img src={github} alt="" />
+                        <p className='ms-2 mt-2'>Login with github</p>
+
                     </Button>
                 </div>
             </div>

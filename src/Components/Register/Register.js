@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
-import { useCreateUserWithEmailAndPassword, useSendEmailVerification } from 'react-firebase-hooks/auth';
+import { useCreateUserWithEmailAndPassword, useSendEmailVerification, useUpdateProfile } from 'react-firebase-hooks/auth';
 import Loading from '../SharedComponents/Loading/Loading';
 
 const Register = () => {
@@ -13,7 +13,7 @@ const Register = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const [name, setName]= useState('');
+
 
     const [
         createUserWithEmailAndPassword,
@@ -22,17 +22,21 @@ const Register = () => {
         error,
       ] = useCreateUserWithEmailAndPassword(auth);
     const [sendEmailVerification, sending, emailError] = useSendEmailVerification(auth);
+
+    const [updateProfile, updating, updateError] = useUpdateProfile(auth);
     
-    if (loading || sending) {
+    if (loading || sending || updating) {
         return <Loading></Loading>
     }
     
     const handleSubmit = async(event) => {
         event.preventDefault();
+        const name = nameRef.current.value;
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
         await createUserWithEmailAndPassword(email, password);
         await sendEmailVerification();
+        await updateProfile({ displayName: name });
     }
     if(user){
         navigate('/home');
@@ -53,7 +57,7 @@ const Register = () => {
                         <Form.Control ref={passwordRef} type="password" placeholder="Password" required />
                     </Form.Group>
                     {
-                        (error||emailError)&&<p className='text-danger'>{error.message}</p>
+                        (error||emailError||updateError)&&<p className='text-danger'>{error.message}</p>
                     }
                     <Button variant="primary w-50 mx-auto d-block mb-2" type="submit">
                         Register
