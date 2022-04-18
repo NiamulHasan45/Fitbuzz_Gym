@@ -4,16 +4,18 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './Login.css';
 import google from '../images/google-01.png';
 import github from '../images/github-01.png';
-import { useSendPasswordResetEmail, useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { useSendPasswordResetEmail, useSignInWithEmailAndPassword, useSignInWithGithub, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
 import Loading from '../SharedComponents/Loading/Loading';
-import toast from 'react-hot-toast';
+import {toast} from 'react-toastify';
 
 const Login = () => {
+
     const emailRef = useRef('');
     const passwordRef = useRef('');
     const navigate = useNavigate();
     const location = useLocation();
+    let errorElement;
 
     const from = location.state?.from?.pathname || "/";
 
@@ -21,7 +23,7 @@ const Login = () => {
         signInWithEmailAndPassword,
         user,
         loading,
-        error,
+        emailPassError,
     ] = useSignInWithEmailAndPassword(auth);
 
     const
@@ -30,6 +32,12 @@ const Login = () => {
             googleLoading, 
             googleError
         ] = useSignInWithGoogle(auth);
+    const
+        [signInWithGithub, 
+            gitUser, 
+            gitLoading, 
+            gitError
+        ] = useSignInWithGithub(auth);
 
         const 
         [sendPasswordResetEmail, 
@@ -56,12 +64,24 @@ const Login = () => {
         }
     }
 
-    if (loading || googleLoading||sending) {
+    if (loading || googleLoading||gitLoading||sending) {
         return <Loading></Loading>;
+    }
+    if(emailPassError){
+        errorElement = <p className='text-danger'>{emailPassError.message}</p>
+    }
+    if(gitError){
+        errorElement = <p className='text-danger'>{gitError.message}</p>
+    }
+    if(googleError){
+        errorElement = <p className='text-danger'>{googleError.message}</p>
+    }
+    if(resetError){
+        errorElement = <p className='text-danger'>{resetError.message}</p>
     }
 
 
-    if (user || googleUser) {
+    if (user || googleUser || gitUser) {
         navigate(from, { replace: true });
     }
 
@@ -77,9 +97,7 @@ const Login = () => {
                     <Form.Group className="mb-4" controlId="formBasicPassword">
                         <Form.Control ref={passwordRef} type="password" placeholder="Password" required />
                     </Form.Group>
-                    {
-                        (error || googleError||resetError) && <p className='text-danger'>{error.message}</p>
-                    }
+                    {errorElement}
                     <Button variant="primary w-50 mx-auto d-block mb-2" type="submit">
                         Login
                     </Button>
@@ -94,7 +112,7 @@ const Login = () => {
                         <p className='ms-2 mt-2'>Login with google</p>
 
                     </Button>
-                    <Button className='w-50 d-block mx-auto d-flex align-items-center justify-content-center'>
+                    <Button onClick={() => signInWithGithub()} className='w-50 d-block mx-auto d-flex align-items-center justify-content-center'>
 
                         <img src={github} alt="" />
                         <p className='ms-2 mt-2'>Login with github</p>
