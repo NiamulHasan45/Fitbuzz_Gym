@@ -11,8 +11,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
     3. Javascript ES6
     4. Firebase
  
-*Picture Collection
-       *Freepik
+ *Picture Collection
+       1.Freepik
     
     
 
