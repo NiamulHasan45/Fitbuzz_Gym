@@ -3,8 +3,8 @@ import './Checkout.css'
 
 const Checkout = () => {
     return (
-        <div className='checkout-container bg-dark text-white'>
-            <h3>This is Checkout page.</h3>
+        <div className='checkout-container bg-dark text-white d-flex justify-content-center align-items-center'>
+            <h3>Thank you for chosing my service</h3>
         </div>
     );
 };

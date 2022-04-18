@@ -6,12 +6,15 @@ import google from '../images/google-01.png';
 import github from '../images/github-01.png';
 import { useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
+import Loading from '../SharedComponents/Loading/Loading';
 
 const Login = () => {
     const emailRef = useRef('');
     const passwordRef = useRef('');
     const navigate = useNavigate();
     const location = useLocation();
+
+    const from = location.state?.from?.pathname || "/";
 
     const [
         signInWithEmailAndPassword,
@@ -30,11 +33,13 @@ const Login = () => {
         signInWithEmailAndPassword(email, password);
     }
 
-    
+    if (loading || googleLoading) {
+        return <Loading></Loading>;
+    }
 
 
    if(user||googleUser){
-       navigate('/home');
+        navigate(from, { replace: true });
    }
 
 
@@ -50,7 +55,7 @@ const Login = () => {
                         <Form.Control ref={passwordRef} type="password" placeholder="Password" required />
                     </Form.Group>
                     {
-                        error&&<p className='text-danger'>{error.message}</p>
+                        (error||googleError)&&<p className='text-danger'>{error.message}</p>
                     }
                     <Button variant="primary w-50 mx-auto d-block mb-2" type="submit">
                         Login
